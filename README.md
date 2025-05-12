@@ -21,3 +21,4 @@ A continuación se muestra el diagrama de conexión entre la Raspberry Pi Pico y
 > - Aplicar el voltaje de motor en el pin `+12V`.
 > - Proporcionar tierra común (`GND`) entre la fuente, la Raspberry Pi y el L298N.
 > - Verificar que el jumper de 5V esté bien colocado si usas el regulador interno del módulo.
+> - Podemos realizar un puente entre los pines de 12V y el de 5V.
