@@ -2,5 +2,7 @@
 # Lab06: Proyecto 2da. entrega
 
 ## Integrantes
-
+Roland Lara 
+Jairo Casallas
+Nicolas Cuartas
 ## Documentación
