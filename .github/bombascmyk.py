@@ -9,7 +9,7 @@ bombas = {
     'blanco': PWM(Pin(22), freq=1000),
 }
 
-ruta_archivo = 'color.txt'
+ruta_archivo = '/home/jairo/Documents/color.txt'
 
 for bomba in bombas.values():
     bomba.duty(0)
