@@ -34,6 +34,11 @@ Después del tiempo de mezcla, el código apaga todas las bombas. Y listo: se ob
 ¿Qué se logra con esto?
 Con solo escribir qué color quieres en un archivo, el sistema mezcla la pintura por ti, sin errores, sin tener que medir a mano, y siempre igual. Ideal para automatizar procesos de pintura, arte, o incluso máquinas de impresión líquida.
 
+
+NODE RED, interface 
+![Node Red](Node_Red.png)
+En la interface Node Red observamos el selector de colores, una vez seleccionado el color nos arroja los porcentages de RGB o CMYK y Blanco, que al final serán recibidos por las bombas
+![Flujo](Flujo.png)
 ## Conexión de la bomba con el módulo L298N
 
 A continuación se muestra el diagrama de conexión entre la Raspberry Pi Pico y el módulo puente H L298N, que controla dos motores (o bombas):
