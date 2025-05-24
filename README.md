@@ -40,7 +40,7 @@ NODE RED, interface
 En la interface Node Red observamos el selector de colores, una vez seleccionado el color nos arroja los porcentages de RGB o CMYK y Blanco, que al final serán recibidos por las bombas
 ![Flujo](Flujo.png)
 
-Consiguiente podemos observar que el bloque 'color.txt' es un archivo de texto donde vamos a guardar todos los datos obtenidos de l ainterfaz Node Red, con el fin de que cuando demos clic en 'Activar' desde la interfaz e Node Red, el bloque de código 'bombas.py' se ejecutará desde el equipo embebido Raspberry.
+Consiguiente podemos observar que el bloque 'color.txt' es un archivo de texto donde vamos a guardar todos los datos obtenidos de la interfaz Node Red, con el fin de que cuando demos clic en 'Activar' desde la interfaz de Node Red, el bloque de código 'bombas.py' se ejecutará desde el equipo embebido Raspberry.
 
 ## Conexión de la bomba con el módulo L298N
 
