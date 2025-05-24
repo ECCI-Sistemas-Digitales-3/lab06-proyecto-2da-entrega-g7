@@ -1,57 +1,80 @@
-from machine import Pin, PWM
-import utime
+import RPi.GPIO as GPIO
+import time
 
-bombas = {
-    'cian': PWM(Pin(17), freq=1000),
-    'magenta': PWM(Pin(18), freq=1000),
-    'amarillo': PWM(Pin(19), freq=1000),
-    'negro': PWM(Pin(21), freq=1000),
-    'blanco': PWM(Pin(22), freq=1000),
+# Pines asignados a cada color
+pin_map = {
+    'cian': 17,
+    'magenta': 18,
+    'amarillo': 19,
+    'negro': 21,
+    'blanco': 22,
 }
+
+GPIO.setmode(GPIO.BCM)
+bombas = {}
+frecuencia = 1000
+
+for color, pin in pin_map.items():
+    GPIO.setup(pin, GPIO.OUT)
+    pwm = GPIO.PWM(pin, frecuencia)
+    pwm.start(0)
+    bombas[color] = pwm
 
 ruta_archivo = '/home/jairo/Documents/color.txt'
 
-for bomba in bombas.values():
-    bomba.duty(0)
-
-def leer_colores(ruta=ruta_archivo):
+def leer_rgb(ruta=ruta_archivo):
     try:
         with open(ruta, 'r') as archivo:
             linea = archivo.readline().strip().replace(" ", "")
             partes = linea.split(',')
-            if len(partes) != 5:
-                raise ValueError("Se esperaban 5 componentes: C, M, Y, K, W.")
-            cian = int(partes[0].split(':')[1])
-            magenta = int(partes[1].split(':')[1])
-            amarillo = int(partes[2].split(':')[1])
-            negro = int(partes[3].split(':')[1])
-            blanco = int(partes[4].split(':')[1])
-            return cian, magenta, amarillo, negro, blanco
+            if len(partes) != 3:
+                raise ValueError("Se esperaban 3 componentes: R, G, B.")
+            r = int(partes[0].split(':')[1])
+            g = int(partes[1].split(':')[1])
+            b = int(partes[2].split(':')[1])
+            return r, g, b
     except Exception as error:
         print("Error al leer el archivo:", error)
-        return 0, 0, 0, 0, 0
+        return 0, 0, 0
 
-def normalizar_colores(c, m, a, n, b):
-    total = c + m + a + n + b
-    if total == 0:
-        return 0, 0, 0, 0, 0
-    return c / total, m / total, a / total, n / total, b / total
+def rgb_a_cmyk(r, g, b):
+    if (r, g, b) == (0, 0, 0):
+        return 0, 0, 0, 1
+    r_, g_, b_ = r / 255.0, g / 255.0, b / 255.0
+    k = 1 - max(r_, g_, b_)
+    c = (1 - r_ - k) / (1 - k) if (1 - k) != 0 else 0
+    m = (1 - g_ - k) / (1 - k) if (1 - k) != 0 else 0
+    y = (1 - b_ - k) / (1 - k) if (1 - k) != 0 else 0
+    return c, m, y, k
+
+def calcular_blanco(r, g, b):
+    r_, g_, b_ = r / 255.0, g / 255.0, b / 255.0
+    blanco = min(r_, g_, b_)  # Lo que se puede simular como blanco puro
+    return blanco
 
 try:
-    cian, magenta, amarillo, negro, blanco = leer_colores()
-    pc, pm, pa, pn, pb = normalizar_colores(cian, magenta, amarillo, negro, blanco)
-    bombas['cian'].duty(int(pc * 1023))
-    bombas['magenta'].duty(int(pm * 1023))
-    bombas['amarillo'].duty(int(pa * 1023))
-    bombas['negro'].duty(int(pn * 1023))
-    bombas['blanco'].duty(int(pb * 1023))
-    tiempo_mezcla = 6
-    utime.sleep(tiempo_mezcla)
+    r, g, b = leer_rgb()
+    c, m, y, k = rgb_a_cmyk(r, g, b)
+    w = calcular_blanco(r, g, b)
+
+    # Normalizar todos los valores entre 0-100 para duty cycle
+    bombas['cian'].ChangeDutyCycle(c * 100)
+    bombas['magenta'].ChangeDutyCycle(m * 100)
+    bombas['amarillo'].ChangeDutyCycle(y * 100)
+    bombas['negro'].ChangeDutyCycle(k * 100)
+    bombas['blanco'].ChangeDutyCycle(w * 100)
+
+    print(f"RGB({r}, {g}, {b}) → CMYK({c:.2f}, {m:.2f}, {y:.2f}, {k:.2f}) + W({w:.2f})")
+    time.sleep(6)
 
 except Exception as error:
     print("Error:", error)
 
 finally:
-    for bomba in bombas.values():
-        bomba.duty(0)
+    for pwm in bombas.values():
+        pwm.ChangeDutyCycle(0)
+        pwm.stop()
+    GPIO.cleanup()
     print("Bombas apagadas. Mezcla finalizada.")
+
+
