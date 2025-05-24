@@ -39,6 +39,9 @@ NODE RED, interface
 ![Node Red](Node_Red.png)
 En la interface Node Red observamos el selector de colores, una vez seleccionado el color nos arroja los porcentages de RGB o CMYK y Blanco, que al final serán recibidos por las bombas
 ![Flujo](Flujo.png)
+
+Consiguiente podemos observar que el bloque 'color.txt' es un archivo de texto donde vamos a guardar todos los datos obtenidos de l ainterfaz Node Red, con el fin de que cuando demos clic en 'Activar' desde la interfaz e Node Red, el bloque de código 'bombas.py' se ejecutará desde el equipo embebido Raspberry.
+
 ## Conexión de la bomba con el módulo L298N
 
 A continuación se muestra el diagrama de conexión entre la Raspberry Pi Pico y el módulo puente H L298N, que controla dos motores (o bombas):
@@ -55,6 +58,5 @@ A continuación se muestra el diagrama de conexión entre la Raspberry Pi Pico y
 > - Proporcionar tierra común (`GND`) entre la fuente, la Raspberry Pi y el L298N.
 > - Verificar que el jumper de 5V esté bien colocado si usas el regulador interno del módulo.
 > - Podemos realizar un puente entre los pines de 12V y el de 5V en el modulo L298N.
->
-> - asdasdasdasdasdasdsad
+
 
