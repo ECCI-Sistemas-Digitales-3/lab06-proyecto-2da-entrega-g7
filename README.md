@@ -42,7 +42,7 @@ En la interface Node Red observamos el selector de colores, una vez seleccionado
 
 Consiguiente podemos observar que el bloque 'color.txt' es un archivo de texto donde vamos a guardar todos los datos obtenidos de la interfaz Node Red, con el fin de que cuando demos clic en 'Activar' desde la interfaz de Node Red, el bloque de código 'bombas.py' se ejecutará desde el equipo embebido Raspberry.
 
-se anexan dos archivos .py el primero llamado bombas.py que recibe los datos en formato RGB y realiza el proceso de acrivación de 3 bombas, el segundo archivo es llamado bombascmyk.py que recibe datos en RGB y los combierte en formato CMYK.
+se anexan dos archivos .py el primero llamado bombas.py que recibe los datos en formato RGB y realiza el proceso de activación de 3 bombas, el segundo archivo es llamado bombascmyk.py que recibe datos en RGB y los convierte en formato CMYK.
 
 ## Conexión de la bomba con el módulo L298N
 
