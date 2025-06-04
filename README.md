@@ -9,7 +9,7 @@ Nicolas Cuartas
 ¿Funcionamiento del sistema?
 Este proyecto sirve para crear colores mezclando pinturas, usando un microcontrolador Raspberry Pi Pico, unas bombas con puentes H y programación.
 
-Conexión
+Conexión:
 Hay 5 bombas, una para cada color de CMYK y Blanco: cian, magenta, amarillo, negro y blanco.
 
 Estas bombas se conectan directo a los puente H, que actúan como un interruptor, capaz de manejar la corriente de los motores.
@@ -18,9 +18,18 @@ Los puentes H están alimentados con 5 voltios.
 
 Desde Raspberry Pi Pico, lo que se hace es mandar señales PWM a cada bomba, para decirle con qué fuerza debe funcionar.
 
-Código
-En el codigo que se desarrollo, se inicia importando las librerias GPIO que permite controlar los pines GPIO de la raspberry Pico, de igual forma el módulo estándar de python para time, que ofrece funciones relacionadas con el tiempo. Posteriorse crea un diccionario pin_map que asigna a cada pin GPIO un color cmykw para la respectiva conexión de cada bomba de succión.
-Creamos un diccionario llamado bombas{} vacio para almacenar los objetos PWM que se asociaran a cada bomba.Manejaremos una frecuencia de 1000 Hz o du equivalente 1KHz
+Código:
+
+En el codigo que se desarrollo, se inicia importando las librerias GPIO que permite controlar los pines GPIO de la raspberry Pico, de igual forma el módulo estándar de python para time, que ofrece funciones relacionadas con el tiempo. import RPi.GPIO as GPIO
+import time.
+
+Posteriorse crea un diccionario pin_map que asigna a cada pin GPIO un color cmykw para la respectiva conexión de cada bomba de succión.
+
+Creamos un diccionario llamado bombas{} vacio para almacenar los objetos PWM que se asociaran a cada bomba.Manejaremos una frecuencia de 1000 Hz o du equivalente 1KHz.
+
+En el for que se creo para recorrer cada color creado en el pin_map; configurando de esta manera los GPIO como salidas, para el pwm crea un objeto PEM para el pin con la frecuencia especificada. En pwm.start(0) inicia la señal con un ciclo de trabajo al 0%. Para bombas[color] almacenamos el objeto PWM en el diccionario bajo la clave que le corresponde a cada color.
+
+
 Lee un archivo CSV con los datos de CMYK Y Blanco, por ejemplo:
 
 C:100, M:50, Y:0, K:30, W:10
