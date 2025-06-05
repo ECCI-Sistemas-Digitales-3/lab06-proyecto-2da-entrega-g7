@@ -20,12 +20,19 @@ Desde Raspberry Pi Pico, lo que se hace es mandar señales PWM a cada bomba, par
 
 Código:
 
-En el codigo que se desarrollo, se inicia importando las librerias GPIO que permite controlar los pines GPIO de la raspberry Pico, de igual forma el módulo estándar de python para time, que ofrece funciones relacionadas con el tiempo. import RPi.GPIO as GPIO
-import time.
+![Import](Import.png)
+
+En el codigo que se desarrollo, se inicia importando las librerias GPIO que permite controlar los pines GPIO de la raspberry Pico, de igual forma el módulo estándar de python para time, que ofrece funciones relacionadas con el tiempo.
+
+![Pin_out_rasberry](Pin_out_rasberry.png)
 
 Posteriorse crea un diccionario pin_map que asigna a cada pin GPIO un color cmykw para la respectiva conexión de cada bomba de succión.
 
+![Mapa de pines](Mapa_de_pines.png)
+
 Creamos un diccionario llamado bombas{} vacio para almacenar los objetos PWM que se asociaran a cada bomba.Manejaremos una frecuencia de 1000 Hz o du equivalente 1KHz.
+
+![PWM](PWM.png)
 
 En el for que se creo para recorrer cada color creado en el pin_map; configurando de esta manera los GPIO como salidas, para el pwm crea un objeto PEM para el pin con la frecuencia especificada. En pwm.start(0) inicia la señal con un ciclo de trabajo al 0%. Para bombas[color] almacenamos el objeto PWM en el diccionario bajo la clave que le corresponde a cada color.
 
