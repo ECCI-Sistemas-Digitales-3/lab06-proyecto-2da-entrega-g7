@@ -36,6 +36,31 @@ Creamos un diccionario llamado bombas{} vacio para almacenar los objetos PWM que
 
 En el for que se creo para recorrer cada color creado en el pin_map; configurando de esta manera los GPIO como salidas, para el pwm crea un objeto PEM para el pin con la frecuencia especificada. En pwm.start(0) inicia la señal con un ciclo de trabajo al 0%. Para bombas[color] almacenamos el objeto PWM en el diccionario bajo la clave que le corresponde a cada color.
 
+![For](For.png)
+
+En la línea 23 del código se hace el llamado de la ruta donde se encuentra el archivo .txt guardado en la memoria de la raspberry 2W; el cual contiene la información suministrada desde Node Red, en formato RGB.
+
+![ruta](ruta.png)
+
+Desde la línea 25 a la línea 38 definimos la función leer_rgb; desde la ruta_archivo donde eliminamos los espacios, separamos los datos con comas(,); y cuando presenta error nos los mostrara (0,0,0) con un mensaje indicando este error.
+
+![Lectura RGB](lectura_rgb.png)
+
+En las líneas 40-48 definimos la función rgb_a_cmyk(r, g, b); donde tomamos los valores obtenidos en RGB del archivo .txt. Normalizamos los datos entre 0 a 1; diviendo los valores obtenidos por cada color dividiendolos en 255; para obtener el valor del color negro simbolizado por la letra K se escoge el valor maximo entre RGB y se realiza la resta. Para calcular el valor de cada color se hace la resta (1-r-k)/(1-k) y cambia r por g o por b dependiendo de CMY; al final la función returna CMYK.
+
+![Cambio a CMYK](CMYK.png)
+
+De las líneas 50 a 53 definicimos la función calcular_blanco(r,g,b) donde normalizamos los valores de RGB dividiendolos en 255 y el de menos valor es el que tomaremos de referencia para tomar como color blanco. De las líneas 55 a 68 llamamos a la función rgb_a_cmyk(r, g, b) después que fueron normalizamos múltiplicamos *100 para saber el ciclo de trabajo de cada bomba de succión. El código imprime la cantidad de cada color CMYKW con dos decimas.
+
+![Ciclo de trabajo](Ciclo_trabajo.png)
+
+En caso de que ocurra un error durante la ejecución del programa, este es capturado y mostrado en pantalla gracias al bloque except. Esto permite detectar problemas como errores en la lectura del archivo, en la conversión de colores o en la activación de las bombas.
+
+Independientemente de si el proceso finaliza correctamente o con errores, el bloque finally garantiza una correcta limpieza del sistema. En este bloque se apagan todas las bombas estableciendo su ciclo de trabajo (duty cycle) a 0%, se detienen los procesos PWM asociados y se ejecuta GPIO.cleanup() para liberar los pines GPIO utilizados, dejándolos en estado seguro.
+
+Finalmente, se muestra un mensaje de confirmación indicando que las bombas han sido apagadas y que la mezcla ha finalizado correctamente.
+
+![Final](Final.png)
 
 Lee un archivo CSV con los datos de CMYK Y Blanco, por ejemplo:
 
