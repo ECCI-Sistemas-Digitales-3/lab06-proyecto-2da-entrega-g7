@@ -24,7 +24,7 @@ Código:
 
 En el codigo que se desarrollo, se inicia importando las librerias GPIO que permite controlar los pines GPIO de la raspberry Pico, de igual forma el módulo estándar de python para time, que ofrece funciones relacionadas con el tiempo.
 
-![Pin_out_rasberry](Pin_out_rasberry.png)
+![Pin_out_rasberry](Pin_out_2w.png)
 
 Posteriorse crea un diccionario pin_map que asigna a cada pin GPIO un color cmykw para la respectiva conexión de cada bomba de succión.
 
